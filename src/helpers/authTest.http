@@ -1,0 +1,31 @@
+GET http://localhost:5000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY2NDY2NzAsImV4cCI6MTcyNjY0NjcyMCwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.7NUobUM3-TzZxqjHKPVp8FrmNK97kBwVfY9ifY59pws
+
+### REGISTER ROUTE
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "123456"
+}
+
+### LOGIN ROUTE
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "123456"
+}
+
+### REFRESH TOKEN
+POST http://localhost:5000/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY2NDYzMzIsImV4cCI6MTcyNzI1MTEzMiwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.UXDmKrkgCEPMaOjvUUfPIiHcZ6x9IxQ5z2mJzBo8wu8"
+}
+
+### LOGOUT ROUTE
+DELETE http://localhost:5000/auth/logout
