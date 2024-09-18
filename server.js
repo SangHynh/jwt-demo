@@ -4,7 +4,8 @@ const authRoute = require('./src/routes/auth.route');
 const { verifyAccessToken } = require("./src/configs/jwt.config");
 require('dotenv').config(); 
 require('./src/configs/db.config'); 
-require('./src/configs/jwt.config')
+require('./src/configs/jwt.config');
+require('./src/configs/redis.config');
 
 // Khởi tạo ứng dụng Express
 const app = express();

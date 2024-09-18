@@ -61,7 +61,7 @@ const refreshToken = async (req, res, next) => {
         const refToken = await signRefreshToken(userId);
         res.send({accessToken: accessToken, refreshToken: refToken});
         console.log({accessToken: accessToken, refreshToken: refToken});
-        
+        // Lưu refreshToken vào database hoặc redis
     } catch (error) {
         next(error);
     }

@@ -1,5 +1,6 @@
+
 GET http://localhost:5000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY2NDY2NzAsImV4cCI6MTcyNjY0NjcyMCwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.7NUobUM3-TzZxqjHKPVp8FrmNK97kBwVfY9ifY59pws
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY3MTY0NzEsImV4cCI6MTcyNjcxNjUwMSwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.gjivfDZXoj-ZRS8wXqbHXvUiT7BBmPbt99NYTtRNVyM
 
 ### REGISTER ROUTE
 POST http://localhost:5000/auth/register
@@ -24,7 +25,7 @@ POST http://localhost:5000/auth/refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY2NDYzMzIsImV4cCI6MTcyNzI1MTEzMiwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.UXDmKrkgCEPMaOjvUUfPIiHcZ6x9IxQ5z2mJzBo8wu8"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjY3MTY0MDUsImV4cCI6MTcyNzMyMTIwNSwiYXVkIjoiNjZlOWIxNDY1NjE2OGY4OGEzMzBkZTg1In0.Ol-Fz07zxEv3xyyoEKvgKTddDgc37d7FRJElxY5RDIM"
 }
 
 ### LOGOUT ROUTE
