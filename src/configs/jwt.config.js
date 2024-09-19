@@ -1,5 +1,7 @@
 const JWT = require("jsonwebtoken");
-const createError = require('http-errors')
+const createError = require("http-errors");
+const redis = require("../configs/redis.config");
+const { convertToSeconds } = require("../utils/convertToSeconds");
 
 module.exports = {
   signAccessToken: (userId) => {
@@ -13,26 +15,27 @@ module.exports = {
       JWT.sign(payload, secret, options, (err, token) => {
         if (err) {
           console.log(err.message);
-          reject(createError.InternalServerError())
-        };
+          reject(createError.InternalServerError());
+        }
         resolve(token);
       });
     });
   },
 
-  verifyAccessToken: (req, res, next)=>{
-    if(!req.headers['authorization']) return next(createError.Unauthorized());
-    const authHeader = req.headers['authorization'];
-    const bearerToken = authHeader.split(' ');
+  verifyAccessToken: (req, res, next) => {
+    if (!req.headers["authorization"]) return next(createError.Unauthorized());
+    const authHeader = req.headers["authorization"];
+    const bearerToken = authHeader.split(" ");
     const token = bearerToken[1];
-    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload)=>{
-      if(err){
-        const message = err.name === 'JsonWebTokenError' ? 'Unauthorized' : err.message
-        return next(createError.Unauthorized(message))
+    JWT.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+      if (err) {
+        const message =
+          err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
+        return next(createError.Unauthorized(message));
       }
       req.payload = payload;
       next();
-    })
+    });
   },
 
   signRefreshToken: (userId) => {
@@ -43,24 +46,42 @@ module.exports = {
         expiresIn: process.env.REFRESH_TOKEN_LIFETIME,
         audience: userId,
       };
+
       JWT.sign(payload, secret, options, (err, token) => {
         if (err) {
           console.log(err.message);
-          reject(createError.InternalServerError())
-        };
+          return reject(createError.InternalServerError());
+        }
+        // Lưu token vào Redis với thời gian sống
+        redis.SET(
+          userId,
+          token,
+          {
+            EX: convertToSeconds(process.env.REFRESH_TOKEN_LIFETIME),
+          },
+          (err, res) => {
+            if (err) {
+              console.log(err);
+              return reject(createError.InternalServerError());
+            }
+          }
+        );
         resolve(token);
       });
     });
   },
 
   verifyRefreshToken: (refreshToken) => {
-    return new Promise((resolve, reject)=>{
-      JWT.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload)=> {
-        if(err) return reject(createError.Unauthorized());
-        const userId = payload.aud;
-        resolve(userId);
-      })
-    })
-  }
-
+    return new Promise((resolve, reject) => {
+      JWT.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+        (err, payload) => {
+          if (err) return reject(createError.Unauthorized());
+          const userId = payload.aud;
+          resolve(userId);
+        }
+      );
+    });
+  },
 };
