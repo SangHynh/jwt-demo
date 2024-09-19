@@ -28,7 +28,6 @@ UserSchema.pre("save", async function (next) {
     // Tiếp tục với middleware tiếp theo
     next();
   } catch (error) {
-    // Nếu có lỗi, chuyển lỗi tới middleware xử lý lỗi
     next(error);
   }
 });

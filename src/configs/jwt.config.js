@@ -4,6 +4,7 @@ const redis = require("../configs/redis.config");
 const { convertToSeconds } = require("../utils/convertToSeconds");
 
 module.exports = {
+  //Tạo access token mới
   signAccessToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = {};
@@ -22,6 +23,7 @@ module.exports = {
     });
   },
 
+  //Xác thực access token hợp lệ
   verifyAccessToken: (req, res, next) => {
     if (!req.headers["authorization"]) return next(createError.Unauthorized());
     const authHeader = req.headers["authorization"];
@@ -38,6 +40,7 @@ module.exports = {
     });
   },
 
+  //Tạo refresh token mới
   signRefreshToken: (userId) => {
     return new Promise((resolve, reject) => {
       const payload = {};
@@ -71,6 +74,7 @@ module.exports = {
     });
   },
 
+  //Xác thực refresh token hợp lệ
   verifyRefreshToken: (refreshToken) => {
     return new Promise((resolve, reject) => {
       JWT.verify(
@@ -79,6 +83,15 @@ module.exports = {
         (err, payload) => {
           if (err) return reject(createError.Unauthorized());
           const userId = payload.aud;
+          //Kiểm tra refresh token tồn tại trong redis
+          redis.GET(userId, (err, result) => {
+            if (err) {
+              console.log(err.message);
+              reject(createError.InternalServerError());
+            }
+            if (refreshToken === result) return resolve(userId);
+            reject(createError.Unauthorized());
+          });
           resolve(userId);
         }
       );
