@@ -25,7 +25,7 @@ POST http://localhost:5000/auth/refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": ""
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MjcwMTk2NzQsImV4cCI6MTcyNzYyNDQ3NCwiYXVkIjoiNjZmMDM5YTc4MjFjNzE5YmQwOGQ5OTNjIn0.6r1fJ54GfjkeCC_fTkqoDRoI30JMaXKBikFuVJz2usA"
 }
 
 ### LOGOUT ROUTE
